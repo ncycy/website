@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>教师个人主页 - 张三</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="张三，某某大学经济管理学院，教师个人主页。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="profile-basic">
+        <img id="profile-photo" class="profile-photo" src="" alt="个人照片" />
+        <div>
+          <h1 id="profile-name">张三</h1>
+          <p id="profile-title" class="profile-title">副教授，博士生导师</p>
+          <p id="profile-affiliation" class="profile-affiliation">
+            某某大学 经济管理学院
+          </p>
+          <p id="profile-email" class="profile-contact"></p>
+        </div>
+      </div>
+      <nav class="nav">
+        <a href="#about">简介</a>
+        <a href="#research">研究方向</a>
+        <a href="#publications">代表论文</a>
+        <a href="#teaching">教学</a>
+        <a href="#students">学生招募</a>
+        <a href="#contact">联系方式</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-content">
+    <section id="about" class="section-card">
+      <h2>个人简介</h2>
+      <div id="about-content"></div>
+    </section>
+
+    <section id="research" class="section-card">
+      <h2>研究方向</h2>
+      <ul id="research-list"></ul>
+    </section>
+
+    <section id="publications" class="section-card">
+      <h2>代表论文</h2>
+      <ol id="publications-list"></ol>
+    </section>
+
+    <section id="teaching" class="section-card">
+      <h2>教学情况</h2>
+      <div id="teaching-content"></div>
+    </section>
+
+    <section id="students" class="section-card">
+      <h2>学生招募</h2>
+      <div id="students-content"></div>
+    </section>
+
+    <section id="contact" class="section-card">
+      <h2>联系方式</h2>
+      <div id="contact-content"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p id="footer-text">© 2026 张三. 保留所有权利。</p>
+    </div>
+  </footer>
+
+  <script src="data.js"></script>
+  <script>
+    // 用 data.js 中的 profileData 来填充页面内容
+    (function () {
+      if (!window.profileData) return;
+
+      const d = window.profileData;
+
+      document.title = d.pageTitle || document.title;
+
+      document.getElementById("profile-name").textContent = d.name;
+      document.getElementById("profile-title").textContent = d.title;
+      document.getElementById("profile-affiliation").textContent = d.affiliation;
+      document.getElementById("profile-email").textContent = "邮箱：" + d.email;
+
+      const photo = document.getElementById("profile-photo");
+      if (d.photo) {
+        photo.src = d.photo;
+      } else {
+        photo.style.display = "none";
+      }
+
+      document.getElementById("about-content").innerHTML = d.aboutHtml;
+      document.getElementById("teaching-content").innerHTML = d.teachingHtml;
+      document.getElementById("students-content").innerHTML = d.studentsHtml;
+      document.getElementById("contact-content").innerHTML = d.contactHtml;
+      document.getElementById("footer-text").textContent = d.footerText;
+
+      const researchList = document.getElementById("research-list");
+      d.researchInterests.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        researchList.appendChild(li);
+      });
+
+      const pubList = document.getElementById("publications-list");
+      d.publications.forEach((p) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span class="pub-title">${p.title}</span><br />
+          <span class="pub-authors">${p.authors}</span>,
+          <span class="pub-journal">${p.journal}</span>,
+          <span class="pub-year">${p.year}</span>
+          ${p.link ? ` [<a href="${p.link}" target="_blank">链接</a>]` : ""}
+        `;
+        pubList.appendChild(li);
+      });
+    })();
+  </script>
+</body>
+</html>
